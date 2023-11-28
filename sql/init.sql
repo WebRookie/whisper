@@ -27,3 +27,17 @@ create table message(
     update_time datetime default null on update now() comment '更新时间',
     is_delete tinyint default 0 comment '是否删除，0-未删除、 1-已删除'
 )comment '信息表';
+
+drop table if exists notice;
+create table notice(
+    id bigint unsigned not null auto_increment primary key comment '通知id',
+    notice_type tinyint unsigned default 0 comment '通知类型：0-系统消息、1-用户通知',
+    status tinyint unsigned default 0 comment '通知状态: 0-正常',
+    title varchar(40) default '通知' comment '消息标题',
+    content varchar(128) not null comment '通知内容',
+    user_id bigint unsigned not null comment '接受用户id',
+    send_id bigint unsigned default null comment '发送方id，系统发送为null',
+    create_time datetime default now() comment '创建时间',
+    update_time datetime default now() on update now() comment '更新时间',
+    is_delete tinyint default 0 comment '是否删除， 0-未删除、1-已删除'
+)comment '通知消息表';

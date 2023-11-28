@@ -18,4 +18,8 @@ public class ResultUtils {
     public static <T> BaseResponse<T> requestError(int code, String message, T data) {
         return new BaseResponse(message, data, code);
     }
+
+    public static BaseResponse error(CodeEnum codeEnum) {
+        return new BaseResponse(codeEnum.getCode(), codeEnum.getMessage());
+    }
 }

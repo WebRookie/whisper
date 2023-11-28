@@ -9,7 +9,13 @@ public enum CodeEnum {
      // 正常成功
      SUCCESS("ok", 20000),
      // 请求出错
-     REQUEST_ERROR("请求出错", 40001)
+     REQUEST_ERROR("请求出错", 40001),
+     // 请求参数不全
+     REQUEST_PARAM_ERROR("请求参数不全", 40002),
+     // code失效
+     REQUEST_CODE_ERROR("code失效", 40003),
+     // 服务异常
+     SERVICE_ERROR("服务异常",50000)
      ;
 
      /**
