@@ -257,6 +257,25 @@ public class User implements Serializable {
         return lastLoginTime;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", nickname='" + nickname + '\'' +
+                ", openId='" + openId + '\'' +
+                ", gender=" + gender +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", relatedId=" + relatedId +
+                ", relatedStatus=" + relatedStatus +
+                ", status=" + status +
+                ", relatedTime=" + relatedTime +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", lastLoginTime=" + lastLoginTime +
+                '}';
+    }
+
     /**
      * 最后一次登陆时间
      */

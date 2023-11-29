@@ -5,19 +5,19 @@
 <mapper namespace="com.rookie.whisper.mapper.UserMapper">
 
     <resultMap id="BaseResultMap" type="com.rookie.whisper.entity.User">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
-            <result property="openId" column="open_id" jdbcType="VARCHAR"/>
-            <result property="gender" column="gender" jdbcType="TINYINT"/>
-            <result property="phone" column="phone" jdbcType="VARCHAR"/>
-            <result property="email" column="email" jdbcType="VARCHAR"/>
-            <result property="relatedId" column="related_id" jdbcType="BIGINT"/>
-            <result property="relatedStatus" column="related_status" jdbcType="TINYINT"/>
-            <result property="status" column="status" jdbcType="TINYINT"/>
-            <result property="relatedTime" column="related_time" jdbcType="TIMESTAMP"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-            <result property="lastLoginTime" column="last_login_time" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+        <result property="openId" column="open_id" jdbcType="VARCHAR"/>
+        <result property="gender" column="gender" jdbcType="TINYINT"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="relatedId" column="related_id" jdbcType="BIGINT"/>
+        <result property="relatedStatus" column="related_status" jdbcType="TINYINT"/>
+        <result property="status" column="status" jdbcType="TINYINT"/>
+        <result property="relatedTime" column="related_time" jdbcType="TIMESTAMP"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="lastLoginTime" column="last_login_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -28,6 +28,35 @@
         last_login_time
     </sql>
     <select id="selectUserByOpenId" resultType="com.rookie.whisper.entity.User">
-        select * from user where open_id = #{openId}
+        select *
+        from user
+        where open_id = #{openId}
+    </select>
+    <select id="selectUserById" resultType="java.util.Map">
+        select id                                                as userId,
+               nickname,
+               open_id                                           as openId,
+               gender,
+               phone,
+               email,
+               related_id                                        as relatedId,
+               related_status                                    as relatedStatus,
+               status,
+               DATE_FORMAT(last_login_time, '%Y-%m-%d %H:%i:%s') as lastLoginTime
+        from user
+        where id = #{userId}
+    </select>
+    <select id="selectUserNotice" resultType="com.rookie.whisper.entity.response.NoticeResponse">
+        select id                                            as noticeId,
+               notice_type                                   as noticeType,
+               title,
+               content,
+               user_id                                       as userId,
+               send_id                                       as sendId,
+               DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') as createTime
+        from notice
+        where user_id = #{userId}
+          and is_delete = 0
+        order by createTime DESC
     </select>
 </mapper>

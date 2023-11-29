@@ -2,6 +2,11 @@ package com.rookie.whisper.service;
 
 import com.rookie.whisper.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.rookie.whisper.entity.response.NoticeResponse;
+import com.rookie.whisper.utils.PageVo;
+
+import java.util.List;
+import java.util.Map;
 
 /**
 * @author edy
@@ -22,5 +27,19 @@ public interface UserService extends IService<User> {
      * @param userId 用户id
      * @return 用户信息
      */
-    User getUserInfo(Long userId);
+    Map<String, Object> getUserInfo(long userId);
+
+    /**
+     * 申请绑定两人关系
+     * @param userId 发送方
+     * @param receiveId 接受方
+     */
+    void setRelation(long userId, long receiveId);
+
+    /**
+     * 查看用户的消息通知
+     * @param pageVo
+     * @return
+     */
+    List<NoticeResponse> getUserNotice(PageVo pageVo);
 }

@@ -14,6 +14,8 @@ public enum CodeEnum {
      REQUEST_PARAM_ERROR("请求参数不全", 40002),
      // code失效
      REQUEST_CODE_ERROR("code失效", 40003),
+     // 用户不可绑定关系
+     USER_NOT_AVAILABLE("用户不可绑定", 40004),
      // 服务异常
      SERVICE_ERROR("服务异常",50000)
      ;

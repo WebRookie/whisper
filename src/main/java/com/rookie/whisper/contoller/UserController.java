@@ -5,8 +5,10 @@ import com.rookie.whisper.common.CodeEnum;
 import com.rookie.whisper.common.ResultUtils;
 import com.rookie.whisper.entity.User;
 import com.rookie.whisper.entity.request.UserInfoRequest;
-import com.rookie.whisper.exception.CustomException;
+import com.rookie.whisper.entity.response.NoticeResponse;
+import com.rookie.whisper.entity.response.SendRelationRequest;
 import com.rookie.whisper.service.UserService;
+import com.rookie.whisper.utils.PageVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,14 +43,29 @@ public class UserController {
 
 
     @PostMapping("/getUserInfo")
-    public BaseResponse<User> getUserInfo(@RequestBody UserInfoRequest userInfoRequest) {
-        System.out.println(userInfoRequest);
-        System.out.println(userInfoRequest.getUserId());
-        if(userInfoRequest == null) {
+    public BaseResponse getUserInfo(@RequestBody UserInfoRequest userInfoRequest) {
+        if (userInfoRequest == null || userInfoRequest.getUserId() == null) {
             return ResultUtils.error(CodeEnum.REQUEST_PARAM_ERROR);
         }
-        Long userId = userInfoRequest.getUserId();
-        User user = userService.getUserInfo(userId);
-        return ResultUtils.success(user);
+        long userId = userInfoRequest.getUserId();
+        Map<String, Object> userMap = userService.getUserInfo(userId);
+        return ResultUtils.success(userMap);
+    }
+
+    @PostMapping("/setRelation")
+    public BaseResponse setRelation(@RequestBody SendRelationRequest sendRelationRequest) {
+        if (sendRelationRequest == null || sendRelationRequest.getReceiveId() == null || sendRelationRequest.getUserId() == null) {
+            return ResultUtils.error(CodeEnum.REQUEST_PARAM_ERROR);
+        }
+        Long userId  = sendRelationRequest.getUserId();
+        Long receiveId = sendRelationRequest.getReceiveId();
+        userService.setRelation(userId, receiveId);
+        return ResultUtils.success("ok");
+    }
+
+    @PostMapping("getUserNotice")
+    public BaseResponse getUserNotice(@RequestBody PageVo pageVo) {
+        List<NoticeResponse> result =  userService.getUserNotice(pageVo);
+        return ResultUtils.success(result);
     }
 }

@@ -19,7 +19,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
     public BaseResponse customExceptionHandler(CustomException e) {
-        log.error( "customException: ",e);
+        // 自定义错误用info打印
+        log.info("customException: ",e);
         return ResultUtils.requestError(e.getCode(), e.getMessage(), null);
     }
 
