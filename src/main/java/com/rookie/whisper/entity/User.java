@@ -19,6 +19,12 @@ public class User implements Serializable {
     @TableId(type = IdType.AUTO)
     private Long id;
 
+
+    /**
+     * 用户头像
+     */
+    private String avatar;
+
     /**
      * 用户昵称
      */
@@ -257,6 +263,14 @@ public class User implements Serializable {
         return lastLoginTime;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -271,6 +285,7 @@ public class User implements Serializable {
                 ", status=" + status +
                 ", relatedTime=" + relatedTime +
                 ", createTime=" + createTime +
+                ", avatar=" + avatar +
                 ", updateTime=" + updateTime +
                 ", lastLoginTime=" + lastLoginTime +
                 '}';

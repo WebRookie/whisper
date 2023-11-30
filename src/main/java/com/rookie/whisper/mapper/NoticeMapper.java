@@ -1,7 +1,14 @@
 package com.rookie.whisper.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.rookie.whisper.entity.Notice;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.rookie.whisper.entity.response.NoticeResponse;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
 * @author edy
@@ -10,6 +17,14 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.rookie.whisper.entity.Notice
 */
 public interface NoticeMapper extends BaseMapper<Notice> {
+    /**
+     * 分页查询用户通知记录
+     * @param page
+     * @param userId
+     * @return
+     */
+    List<NoticeResponse> selectUserNotice(Page<NoticeResponse> page, Long userId);
+
 
 }
 

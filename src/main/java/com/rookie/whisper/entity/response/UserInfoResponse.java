@@ -20,6 +20,11 @@ public class UserInfoResponse {
     private Long userId;
 
     /**
+     * 用户头像
+     */
+    private String avatar;
+
+    /**
      * 用户昵称
      */
     private String nickname;

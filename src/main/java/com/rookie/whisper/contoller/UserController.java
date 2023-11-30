@@ -57,7 +57,7 @@ public class UserController {
         if (sendRelationRequest == null || sendRelationRequest.getReceiveId() == null || sendRelationRequest.getUserId() == null) {
             return ResultUtils.error(CodeEnum.REQUEST_PARAM_ERROR);
         }
-        Long userId  = sendRelationRequest.getUserId();
+        Long userId = sendRelationRequest.getUserId();
         Long receiveId = sendRelationRequest.getReceiveId();
         userService.setRelation(userId, receiveId);
         return ResultUtils.success("ok");
@@ -65,7 +65,21 @@ public class UserController {
 
     @PostMapping("getUserNotice")
     public BaseResponse getUserNotice(@RequestBody PageVo pageVo) {
-        List<NoticeResponse> result =  userService.getUserNotice(pageVo);
+        List<NoticeResponse> result = userService.getUserNotice(pageVo);
         return ResultUtils.success(result);
+    }
+
+    @PostMapping("updateUserInfo")
+    public BaseResponse updateUserInfo(@RequestBody Map<String, Object> map) {
+        if (map.get("userId") == null) {
+            return ResultUtils.error(CodeEnum.REQUEST_PARAM_ERROR);
+        }
+        int result = userService.updateUserInfo(map);
+        if (result != 0) {
+            return ResultUtils.success("更新成功！");
+        } else {
+            return ResultUtils.error(CodeEnum.SERVICE_ERROR);
+        }
+
     }
 }

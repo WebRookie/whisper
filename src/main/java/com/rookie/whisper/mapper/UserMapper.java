@@ -5,6 +5,7 @@ import com.rookie.whisper.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.rookie.whisper.entity.response.NoticeResponse;
 import org.apache.ibatis.annotations.MapKey;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -32,12 +33,7 @@ public interface UserMapper extends BaseMapper<User> {
      */
     Map<String, Object> selectUserById(Long userId);
 
-    /**
-     * 分页查询用户通知
-     * @param page
-     * @return
-     */
-    List<NoticeResponse> selectUserNotice(Page<NoticeResponse> page);
+
 }
 
 

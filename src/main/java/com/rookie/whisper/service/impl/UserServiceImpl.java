@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -43,8 +44,7 @@ import java.util.Map;
  */
 @Service
 @Slf4j
-public class UserServiceImpl extends ServiceImpl<UserMapper, User>
-        implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     @Value("${wxAppId}")
     private String appId;
@@ -105,7 +105,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         this.update(updateWrapper);
         // 发送信息
         Notice sendNotice = new Notice();
-        sendNotice.setContent("用户" + sendUser.get("nickname") + "ID为：" + userId + "申请与您绑定关系");
+        sendNotice.setContent("用户" + (sendUser.get("nickname") != null ? sendUser.get("nickname") : "微信用户") + "ID为：" + userId + "申请与您绑定关系");
         sendNotice.setCreateTime(new Date());
         sendNotice.setUserId(receiveId);
         sendNotice.setSendId(userId);
@@ -115,16 +115,44 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
     public List<NoticeResponse> getUserNotice(PageVo pageVo) {
         Page<NoticeResponse> page = new Page<>(pageVo.getPageNum(), pageVo.getPageSize());
-        List<NoticeResponse> noticeList = userMapper.selectUserNotice(page);
+        Map<String, Object> map = pageVo.getParam();
+        Long userId = ((Integer) map.get("userId")).longValue();
+        List<NoticeResponse> noticeList = noticeMapper.selectUserNotice(page, userId);
         log.info("查询数组：{}", noticeList);
         return noticeList;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int updateUserInfo(Map<String, Object> map) {
+        Map<String, Object> updateUser = userMapper.selectUserById(((Integer) map.get("userId")).longValue());
+        if (updateUser == null) {
+            throw new CustomException(40000, "用户不存在");
+        }
+        LambdaUpdateWrapper<User> lambdaUpdateWrapper = new UpdateWrapper<User>().lambda();
+        lambdaUpdateWrapper.set(User::getNickname, map.get("nickname"))
+                .set(User::getAvatar, map.get("avatar"))
+                .set(User::getGender, map.get("gender"))
+                .set(User::getPhone, map.get("phone"))
+                .set(User::getEmail, map.get("email"));
+        lambdaUpdateWrapper.eq(User::getId, map.get("userId"));
+        userMapper.update(null, lambdaUpdateWrapper);
+
+        //        lambdaUpdateWrapper.eq(User::getNickname ,map.get("nickname")).eq();
+//        updateUser.put("nickname", map.get("nickname"));
+//        updateUser.put("gender", map.get("gender"));
+//        updateUser.put("phone", map.get("phone"));
+//        updateUser.put("avatar", map.get("avatar"));
+//        updateUser.put("email", map.get("email"));
+
+        return 1;
     }
 
 
     /**
      * 微信登录获取openId
      *
-     * @param jsCode 前端登录jscode
+     * @param jsCode 前端登录jsCode
      * @return JSONObject
      */
     public JSONObject getUserWxLogin(String jsCode) {

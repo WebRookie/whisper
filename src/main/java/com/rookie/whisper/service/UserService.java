@@ -42,4 +42,11 @@ public interface UserService extends IService<User> {
      * @return
      */
     List<NoticeResponse> getUserNotice(PageVo pageVo);
+
+    /**
+     * 更新用户信息
+     * @param map
+     * @return
+     */
+    int updateUserInfo(Map<String, Object> map);
 }
