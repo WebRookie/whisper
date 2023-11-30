@@ -46,17 +46,4 @@
         from user
         where id = #{userId}
     </select>
-    <select id="selectUserNotice" resultType="com.rookie.whisper.entity.response.NoticeResponse">
-        select id                                            as noticeId,
-               notice_type                                   as noticeType,
-               title,
-               content,
-               user_id                                       as userId,
-               send_id                                       as sendId,
-               DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') as createTime
-        from notice
-        where user_id = #{userId}
-          and is_delete = 0
-        order by createTime DESC
-    </select>
 </mapper>

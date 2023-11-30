@@ -5,16 +5,16 @@
 <mapper namespace="com.rookie.whisper.mapper.NoticeMapper">
 
     <resultMap id="BaseResultMap" type="com.rookie.whisper.entity.Notice">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="noticeType" column="notice_type" jdbcType="TINYINT"/>
-            <result property="status" column="status" jdbcType="TINYINT"/>
-            <result property="title" column="title" jdbcType="VARCHAR"/>
-            <result property="content" column="content" jdbcType="VARCHAR"/>
-            <result property="userId" column="user_id" jdbcType="BIGINT"/>
-            <result property="sendId" column="send_id" jdbcType="BIGINT"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-            <result property="isDelete" column="is_delete" jdbcType="TINYINT"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="noticeType" column="notice_type" jdbcType="TINYINT"/>
+        <result property="status" column="status" jdbcType="TINYINT"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="sendId" column="send_id" jdbcType="BIGINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="isDelete" column="is_delete" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -23,4 +23,19 @@
         send_id,create_time,update_time,
         is_delete
     </sql>
+    <select id="selectUserNotice" resultType="com.rookie.whisper.entity.response.NoticeResponse">
+        select id          as noticeId,
+               status,
+               title,
+               content,
+               user_id     as userId,
+               send_id     as sendId,
+               create_time as createTime
+               # 实体类去接返回结果，是需要在返回字段中去格式化时间
+#                DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') as createTime
+        from notice
+        where user_id = #{userId}
+          and is_delete = 0
+        order by create_time desc
+    </select>
 </mapper>
