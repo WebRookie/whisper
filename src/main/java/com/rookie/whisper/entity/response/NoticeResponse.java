@@ -47,6 +47,9 @@ public class NoticeResponse {
 
     /**
      * 创建时间
+     * # 实体类去接返回结果，是需要在返回字段中去格式化时间
+     * DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') as createTime
+     * 如果是Map接收结果就可以在sql中写了
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;

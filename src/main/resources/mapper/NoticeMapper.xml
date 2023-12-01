@@ -31,8 +31,7 @@
                user_id     as userId,
                send_id     as sendId,
                create_time as createTime
-               # 实体类去接返回结果，是需要在返回字段中去格式化时间
-#                DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') as createTime
+
         from notice
         where user_id = #{userId}
           and is_delete = 0

@@ -25,7 +25,7 @@ public class Notice implements Serializable {
     /**
      * 通知状态: 0-正常
      */
-    private Integer status;
+    private Long status;
 
     /**
      * 消息标题
@@ -97,14 +97,14 @@ public class Notice implements Serializable {
     /**
      * 通知状态: 0-正常
      */
-    public Integer getStatus() {
+    public Long getStatus() {
         return status;
     }
 
     /**
      * 通知状态: 0-正常
      */
-    public void setStatus(Integer status) {
+    public void setStatus(Long status) {
         this.status = status;
     }
 

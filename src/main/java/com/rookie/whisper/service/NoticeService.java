@@ -10,4 +10,20 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface NoticeService extends IService<Notice> {
 
+
+    /**
+     * 申请绑定两人关系
+     * @param userId 发送方
+     * @param receiveId 接受方
+     */
+    void setRelation(long userId, long receiveId);
+
+    /**
+     * 处理申请状态
+     * @param userId 用户Id
+     * @param noticeId 消息Id
+     * @param status 状态
+     * @param sendUserId 发送方Id
+     */
+    void editRelation(Long userId, Long noticeId, Integer status, Long sendUserId);
 }

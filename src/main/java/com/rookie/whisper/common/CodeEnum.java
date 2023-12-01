@@ -16,6 +16,8 @@ public enum CodeEnum {
      REQUEST_CODE_ERROR("code失效", 40003),
      // 用户不可绑定关系
      USER_NOT_AVAILABLE("用户不可绑定", 40004),
+     // 请求绑定过期
+     BIND_REQUEST_TIMEOUT("请求过期", 40005),
      // 服务异常
      SERVICE_ERROR("服务异常",50000)
      ;

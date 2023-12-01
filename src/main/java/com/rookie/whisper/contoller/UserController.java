@@ -6,7 +6,6 @@ import com.rookie.whisper.common.ResultUtils;
 import com.rookie.whisper.entity.User;
 import com.rookie.whisper.entity.request.UserInfoRequest;
 import com.rookie.whisper.entity.response.NoticeResponse;
-import com.rookie.whisper.entity.response.SendRelationRequest;
 import com.rookie.whisper.service.UserService;
 import com.rookie.whisper.utils.PageVo;
 import org.apache.commons.lang3.StringUtils;
@@ -52,16 +51,7 @@ public class UserController {
         return ResultUtils.success(userMap);
     }
 
-    @PostMapping("/setRelation")
-    public BaseResponse setRelation(@RequestBody SendRelationRequest sendRelationRequest) {
-        if (sendRelationRequest == null || sendRelationRequest.getReceiveId() == null || sendRelationRequest.getUserId() == null) {
-            return ResultUtils.error(CodeEnum.REQUEST_PARAM_ERROR);
-        }
-        Long userId = sendRelationRequest.getUserId();
-        Long receiveId = sendRelationRequest.getReceiveId();
-        userService.setRelation(userId, receiveId);
-        return ResultUtils.success("ok");
-    }
+
 
     @PostMapping("getUserNotice")
     public BaseResponse getUserNotice(@RequestBody PageVo pageVo) {
@@ -80,6 +70,7 @@ public class UserController {
         } else {
             return ResultUtils.error(CodeEnum.SERVICE_ERROR);
         }
-
     }
+
+
 }

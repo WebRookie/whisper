@@ -29,12 +29,7 @@ public interface UserService extends IService<User> {
      */
     Map<String, Object> getUserInfo(long userId);
 
-    /**
-     * 申请绑定两人关系
-     * @param userId 发送方
-     * @param receiveId 接受方
-     */
-    void setRelation(long userId, long receiveId);
+
 
     /**
      * 查看用户的消息通知
