@@ -4,14 +4,17 @@ import com.rookie.whisper.common.BaseResponse;
 import com.rookie.whisper.common.CodeEnum;
 import com.rookie.whisper.common.ResultUtils;
 import com.rookie.whisper.entity.request.EditRelationRequestVo;
+import com.rookie.whisper.entity.response.NoticeResponse;
 import com.rookie.whisper.entity.response.SendRelationRequest;
 import com.rookie.whisper.service.NoticeService;
+import com.rookie.whisper.utils.PageVo;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author WebRookie
@@ -47,5 +50,11 @@ public class NoticeController {
         noticeService.editRelation(editRelationRequestVo.getUserId(),editRelationRequestVo.getNoticeId(), editRelationRequestVo.getStatus(), editRelationRequestVo.getSendUserId());
         return ResultUtils.success("操作成功！");
 
+    }
+
+    @PostMapping("getUserNotice")
+    public BaseResponse getUserNotice(@RequestBody PageVo pageVo) {
+        List<NoticeResponse> result = noticeService.getUserNotice(pageVo);
+        return ResultUtils.success(result);
     }
 }

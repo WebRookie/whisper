@@ -2,6 +2,10 @@ package com.rookie.whisper.service;
 
 import com.rookie.whisper.entity.Notice;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.rookie.whisper.entity.response.NoticeResponse;
+import com.rookie.whisper.utils.PageVo;
+
+import java.util.List;
 
 /**
 * @author edy
@@ -26,4 +30,11 @@ public interface NoticeService extends IService<Notice> {
      * @param sendUserId 发送方Id
      */
     void editRelation(Long userId, Long noticeId, Integer status, Long sendUserId);
+
+    /**
+     * 查询用户的信息通知
+     * @param pageVo
+     * @return
+     */
+    List<NoticeResponse> getUserNotice(PageVo pageVo);
 }

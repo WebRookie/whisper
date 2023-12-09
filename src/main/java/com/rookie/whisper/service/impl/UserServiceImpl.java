@@ -84,20 +84,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
 
 
-    @Override
-    public List<NoticeResponse> getUserNotice(PageVo pageVo) {
-        Page<NoticeResponse> page = new Page<>(pageVo.getPageNum(), pageVo.getPageSize());
-        Map<String, Object> map = pageVo.getParam();
-        Long userId = ((Integer) map.get("userId")).longValue();
-        List<NoticeResponse> noticeList = noticeMapper.selectUserNotice(page, userId);
-        log.info("查询数组：{}", noticeList);
-        return noticeList;
-    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int updateUserInfo(Map<String, Object> map) {
-        Map<String, Object> updateUser = userMapper.selectUserById(((Integer) map.get("userId")).longValue());
+        Map<String, Object> updateUser = userMapper.selectUserById((Long) map.get("userId"));
         if (updateUser == null) {
             throw new CustomException(40000, "用户不存在");
         }
@@ -108,16 +99,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .set(User::getPhone, map.get("phone"))
                 .set(User::getEmail, map.get("email"));
         lambdaUpdateWrapper.eq(User::getId, map.get("userId"));
-        userMapper.update(null, lambdaUpdateWrapper);
-
-        //        lambdaUpdateWrapper.eq(User::getNickname ,map.get("nickname")).eq();
-//        updateUser.put("nickname", map.get("nickname"));
-//        updateUser.put("gender", map.get("gender"));
-//        updateUser.put("phone", map.get("phone"));
-//        updateUser.put("avatar", map.get("avatar"));
-//        updateUser.put("email", map.get("email"));
-
-        return 1;
+        return userMapper.update(null, lambdaUpdateWrapper);
     }
 
 

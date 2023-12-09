@@ -53,11 +53,7 @@ public class UserController {
 
 
 
-    @PostMapping("getUserNotice")
-    public BaseResponse getUserNotice(@RequestBody PageVo pageVo) {
-        List<NoticeResponse> result = userService.getUserNotice(pageVo);
-        return ResultUtils.success(result);
-    }
+
 
     @PostMapping("updateUserInfo")
     public BaseResponse updateUserInfo(@RequestBody Map<String, Object> map) {

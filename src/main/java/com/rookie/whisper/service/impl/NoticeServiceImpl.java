@@ -2,22 +2,26 @@ package com.rookie.whisper.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rookie.whisper.common.CodeEnum;
 import com.rookie.whisper.entity.Notice;
 import com.rookie.whisper.entity.User;
+import com.rookie.whisper.entity.response.NoticeResponse;
 import com.rookie.whisper.exception.CustomException;
 
 import com.rookie.whisper.mapper.NoticeMapper;
 import com.rookie.whisper.mapper.UserMapper;
 import com.rookie.whisper.service.NoticeService;
 
+import com.rookie.whisper.utils.PageVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -61,6 +65,16 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice>
         noticeMapper.insert(sendNotice);
     }
 
+    @Override
+    public List<NoticeResponse> getUserNotice(PageVo pageVo) {
+        Page<NoticeResponse> page = new Page<>(pageVo.getPageNum(), pageVo.getPageSize());
+        Map<String, Object> map = pageVo.getParam();
+        Long userId = ((Integer) map.get("userId")).longValue();
+        List<NoticeResponse> noticeList = noticeMapper.selectUserNotice(page, userId);
+        log.info("查询数组：{}", noticeList);
+        return noticeList;
+    }
+
     /**
      * 响应绑定信息
      *
@@ -86,8 +100,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice>
         sendNotice.setCreateTime(new Date());
         sendNotice.setUserId(receiveUserId);
         sendNotice.setSendId(null);
-        noticeMapper.insert(sendNotice);
-        return 1;
+        return noticeMapper.insert(sendNotice);
     }
 
     @Override

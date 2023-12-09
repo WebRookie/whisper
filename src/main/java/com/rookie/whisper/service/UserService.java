@@ -31,12 +31,7 @@ public interface UserService extends IService<User> {
 
 
 
-    /**
-     * 查看用户的消息通知
-     * @param pageVo
-     * @return
-     */
-    List<NoticeResponse> getUserNotice(PageVo pageVo);
+
 
     /**
      * 更新用户信息

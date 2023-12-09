@@ -1,5 +1,6 @@
 package com.rookie.whisper.utils;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.Data;
 
 import java.util.HashMap;
